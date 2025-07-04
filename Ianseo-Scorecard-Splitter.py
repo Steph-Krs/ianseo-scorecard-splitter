@@ -12,14 +12,14 @@ def extract_info(page_text):
     Extracts the position and barcode from the page text.
     Returns the filename to use for the page, or None if not found.
     """
-    position_match = re.search(r"\\b(\\d{1,3}A)\\b", page_text)
-    position = position_match.group(1) if position_match else None
+    match_pos = re.search(r"\b(\d{1,3}A)\b", page_text)
+    position = match_pos.group(1) if match_pos else None
 
-    barcode_matches = re.findall(r"(\\d{7}[A-Z]-[A-Z]{2}-[A-Za-z]+-\\d)", page_text)
-    barcode = barcode_matches[0] if barcode_matches else None
+    matches_cb = re.findall(r"(\d{7}[A-Z]-[A-Z]{2}-[A-Za-z]+-\d)", page_text)
+    code_barres = matches_cb[0] if matches_cb else None
 
-    if position and barcode:
-        return f"{position}_{barcode}.pdf"
+    if position and code_barres:
+        return f"{position}_{code_barres}.pdf"
     return None
 
 def compress_pdf(input_path, output_path):
